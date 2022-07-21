@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ### Features
 
 -   Shopping cart
--   Logging
+-   Login
 
 ### Libraries & Frameworks
 
