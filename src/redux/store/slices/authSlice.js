@@ -12,8 +12,8 @@ export const authSlice = createSlice({
       ? sessionStorage.getItem("isLogged")
       : false,
     error: null,
-    isAdmin: sessionStorage.getItem(false)
-      ? sessionStorage.getItem(false)
+    isAdmin: sessionStorage.getItem("isAdmin")
+      ? sessionStorage.getItem("isAdmin")
       : false,
   },
   reducers: {
@@ -29,11 +29,13 @@ export const authSlice = createSlice({
     },
     login: (state, action) => {
       state.token = action.payload;
+      state.isLogged = true;
       // console.log("status after login: ", state.isLogged);
     },
     logout: (state, action) => {
       state.token = null;
       state.isLogged = false;
+      sessionStorage.clear();
       // console.log("status after logout: ", state.isLogged);
     },
     error: (state, action) => {
@@ -41,10 +43,16 @@ export const authSlice = createSlice({
       state.isLogged = false;
       state.check = false;
     },
+
+    setAdmin: (state, action) => {
+      state.isAdmin = true;
+      sessionStorage.setItem("isAdmin", true);
+    },
   },
 });
 
-export const { request, error, success } = authSlice.actions;
+export const { request, error, success, login, logout, setAdmin } =
+  authSlice.actions;
 
 export const loginAsync = (username, password) => async (dispatch) => {
   try {
@@ -59,6 +67,9 @@ export const loginAsync = (username, password) => async (dispatch) => {
     //     JSON.stringify({ username: loginData.username })
     // );
     // dispatch(request(false));
+    if (username === "johnd") {
+      dispatch(setAdmin());
+    }
     sessionStorage.setItem("storeToken", res?.data.token);
     sessionStorage.setItem("isLogged", true);
 
@@ -85,8 +96,6 @@ export const logoutAsync = () => async (dispatch) => {
     dispatch(success());
   }
 };
-
-export const { login, logout } = authSlice.actions;
 
 export default authSlice.reducer;
 // export const authSelector = (state) => state.user;

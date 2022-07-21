@@ -48,9 +48,9 @@ const HomePage = () => {
                 Welcome to the Shop
               </h1>
               <div className="lead fw-normal">
-                <h1 className="text-dark fw-light">
+                {/* <h1 className="text-dark fw-light">
                   Volutpat maecenas volutpat blandit aliquam{" "}
-                </h1>
+                </h1> */}
                 <p className="text-light lead">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.

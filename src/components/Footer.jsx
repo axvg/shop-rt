@@ -10,7 +10,7 @@ const Footer = () => {
             href="/"
             className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"
           >
-            <i class="bi bi-bootstrap-fill"></i>
+            <i className="bi bi-bootstrap-fill"></i>
           </a>
           <span className="mb-3 mb-md-0 text-muted">
             &copy; 2022 Company, Inc
@@ -20,17 +20,17 @@ const Footer = () => {
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-4">
           <li className="ms-3">
             <a className="text-muted" href="https://twitter.com">
-              <i class="bi bi-twitter"></i>
+              <i className="bi bi-twitter"></i>
             </a>
           </li>
           <li className="ms-3">
             <a className="text-muted" href="https://instagram.com">
-              <i class="bi bi-instagram"></i>
+              <i className="bi bi-instagram"></i>
             </a>
           </li>
           <li className="ms-3">
             <a className="text-muted" href="https://facebook.com">
-              <i class="bi bi-facebook"></i>
+              <i className="bi bi-facebook"></i>
             </a>
           </li>
         </ul>
