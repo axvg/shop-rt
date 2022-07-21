@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Image, ListGroup, Col, Row, Button, Badge } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,36 +10,20 @@ import {
   getItemDetailsAsync,
 } from "../redux/store/slices/productSlice";
 import { addItem, removeItem } from "../redux/store/slices/cartSlice";
-import Notification from "../components/Notification";
 import { useToaster } from "@scrumble-nl/react-quick-toaster";
 import P404 from "../components/P404";
 
 const ProductPage = () => {
   let params = useParams();
   const dispatch = useDispatch();
-  const [qty, setQty] = useState(1);
   const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    const value = Math.max(1, Math.min(50, Number(event.target.value)));
-    setQty(value);
-  };
-
-  const { product, loading, rating } = useSelector((state) => state.product);
+  const { product, loading, error } = useSelector((state) => state.product);
   const { isAdmin, isLogged } = useSelector((state) => state.auth);
 
-  console.log("product added", product);
-
   useEffect(() => {
-    getItem();
-  }, [dispatch, params]);
-
-  function getItem() {
     dispatch(getItemDetailsAsync(params.id));
-  }
-  const error = false;
-
-  const [showA, setShowA] = useState(true);
+  }, [dispatch, params]);
 
   const add = useToaster();
 
@@ -170,7 +154,6 @@ const ProductPage = () => {
           </Col>
         </Row>
       )}
-      <Notification title="test" message="msg" show={showA} />
     </>
   );
 };

@@ -64,6 +64,10 @@ export const productSlice = createSlice({
       // );
       localStorage.setItem("productItems", JSON.stringify(state.productItems));
     },
+    error: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
   },
 });
 
@@ -75,6 +79,7 @@ export const {
   addItem,
   successItems,
   deleteItemfromStore,
+  error,
 } = productSlice.actions;
 
 export const getItemsAsync = () => async (dispatch) => {
@@ -89,7 +94,10 @@ export const getItemsAsync = () => async (dispatch) => {
       dispatch(successItems());
     }
   } catch (err) {
-    throw new Error(err);
+    dispatch(requestItems());
+    console.log('err', err);
+    dispatch(error(err?.response.data));
+    dispatch(successItems());
   }
 };
 
@@ -97,10 +105,12 @@ export const getItemDetailsAsync = (id) => async (dispatch) => {
   try {
     console.log("this id", id);
 
-    let thisProd = JSON.parse(localStorage.getItem("productItems")).find(el => el.id === Number(id));
+    let thisProd = JSON.parse(localStorage.getItem("productItems")).find(
+      (el) => el.id === Number(id)
+    );
     console.log("thisProd", thisProd);
 
-    if ((thisProd && id < 21)) {
+    if (thisProd && id < 21) {
       dispatch(requestItems());
       const res = await axios.get(`https://fakestoreapi.com/products/${id}`);
       // console.log("url", `https://fakestoreapi.com/products/${id}`);
@@ -110,7 +120,9 @@ export const getItemDetailsAsync = (id) => async (dispatch) => {
     }
     dispatch(getItemById(thisProd));
   } catch (err) {
-    throw new Error(err);
+    dispatch(requestItems());
+    dispatch(error(err?.response.data));
+    dispatch(successItems());
   }
 };
 
@@ -122,7 +134,9 @@ export const addItemAsync = (obj) => async (dispatch) => {
     dispatch(addItem(res.data));
     dispatch(successItems());
   } catch (err) {
-    throw new Error(err);
+    dispatch(requestItems());
+    dispatch(error(err?.response.data));
+    dispatch(successItems());
   }
 };
 

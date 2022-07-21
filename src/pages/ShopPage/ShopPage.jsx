@@ -10,6 +10,7 @@ import "./styles.css";
 const ShopPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.productItems);
+  const { loading, error } = useSelector((state) => state.product);
   const { isLogged } = useSelector((state) => state?.auth);
 
   useEffect(() => {
@@ -20,9 +21,7 @@ const ShopPage = () => {
     dispatch(getItemsAsync());
   }
 
-  console.log('products in Shop', products);
-  const loading = useSelector((state) => state.product.loading);
-  const error = false;
+  console.log("products in Shop", products);
 
   return (
     <>

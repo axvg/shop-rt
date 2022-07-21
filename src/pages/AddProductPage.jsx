@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
 import { addItemAsync } from "../redux/store/slices/productSlice";
 
@@ -14,8 +14,8 @@ const AddProductPage = () => {
   const inputRef = useRef();
   const navigate = useNavigate();
 
-  const products = useSelector((state) => state.product.productItems);
-  const { isAdmin } = useSelector((state) => state?.auth);
+  // const products = useSelector((state) => state.product.productItems);
+  const { isAdmin, isLogged } = useSelector((state) => state?.auth);
 
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const AddProductPage = () => {
   };
 
   useEffect(() => {
-    if (!isAdmin) {
+    if (!isAdmin || !isLogged) {
       navigate("/");
     }
   }, []);

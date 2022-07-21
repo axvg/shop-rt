@@ -36,6 +36,7 @@ export const userSlice = createSlice({
     },
     error: (state, action) => {
       state.error = action.payload;
+      state.loading = false;
     },
   },
 });
@@ -52,7 +53,9 @@ export const getAllUsersAsync = () => async (dispatch) => {
     dispatch(getAllUsers(res.data));
     dispatch(successUser());
   } catch (err) {
+    dispatch(requestUser());
     dispatch(error(err));
+    dispatch(successUser());
   }
 };
 
@@ -63,7 +66,9 @@ export const getUserByIdAsync = (id) => async (dispatch) => {
     dispatch(getUserById(res.data));
     console.log(res.data);
   } catch (err) {
+    dispatch(requestUser());
     dispatch(error(err));
+    dispatch(successUser());
   }
 };
 
