@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Image, ListGroup, Col, Row, Button, Badge } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
-import { getItemDetailsAsync } from "../redux/store/slices/productSlice";
-import { addItem } from "../redux/store/slices/cartSlice";
+import {
+  deleteItemfromStore,
+  getItemDetailsAsync,
+} from "../redux/store/slices/productSlice";
+import { addItem, removeItem } from "../redux/store/slices/cartSlice";
 import Notification from "../components/Notification";
-import { useToaster } from "@scrumble-nl/react-quick-toaster"; // Step 1
+import { useToaster } from "@scrumble-nl/react-quick-toaster";
+import P404 from "../components/P404";
 
 const ProductPage = () => {
   let params = useParams();
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const value = Math.max(1, Math.min(50, Number(event.target.value)));
@@ -21,6 +26,9 @@ const ProductPage = () => {
   };
 
   const { product, loading, rating } = useSelector((state) => state.product);
+  const { isAdmin, isLogged } = useSelector((state) => state.auth);
+
+  console.log("product added", product);
 
   useEffect(() => {
     getItem();
@@ -36,18 +44,24 @@ const ProductPage = () => {
   const add = useToaster();
 
   const showToast = () => {
-    add({ content: `${product.title} added to cart` }); // Step 2
+    add({ content: `${product.title} added to cart` });
+  };
+
+  const showToast2 = () => {
+    add({ content: `${product.title} removed from Shop`, variant: "danger" });
   };
 
   return (
     <>
-      <Link className="btn btn-warning my-3" to="/">
+      <Link className="btn btn-warning my-3" to="/shop">
         Go Back
       </Link>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
+      ) : !product ? (
+        <P404 />
       ) : (
         <Row>
           <Col md={6}>
@@ -79,17 +93,17 @@ const ProductPage = () => {
               <ListGroup.Item>
                 Category: <Badge bg="secondary">{product?.category}</Badge>
               </ListGroup.Item>
-              <ListGroup.Item>
+              {/* <ListGroup.Item>
                 <Row>
                   <Col>Price per unit: </Col>
                   <Col>
                     <strong>${product?.price}</strong>
                   </Col>
                 </Row>
-              </ListGroup.Item>
+              </ListGroup.Item> */}
 
               <ListGroup.Item>
-                <Row>
+                {/* <Row>
                   <Col>Number: </Col>
                   <Col>
                     <Button size="sm" onClick={() => setQty(qty - 1)}>
@@ -102,21 +116,56 @@ const ProductPage = () => {
                       +{" "}
                     </Button>
                   </Col>
-                </Row>
+                </Row> */}
               </ListGroup.Item>
               <ListGroup.Item className="d-grid">
                 <Button
                   className="btn-success"
                   type="button"
-                  // disabled={product?.countInStock === 0}
                   onClick={() => {
                     dispatch(addItem(product));
                     showToast();
                   }}
                 >
-                  Add to Cart
+                  <i className="bi bi-cart4" /> Add to Cart
                 </Button>
               </ListGroup.Item>
+              {isAdmin && isLogged ? (
+                <ListGroup.Item className="d-grid">
+                  <Row className="text-center">
+                    <Col>
+                      <Button
+                        className="btn-danger"
+                        type="button"
+                        onClick={() => {
+                          dispatch(deleteItemfromStore(product));
+                          dispatch(removeItem(product));
+                          navigate("/shop");
+                          showToast2();
+                        }}
+                      >
+                        <i className="bi bi-trash" /> Delete item
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Button
+                        className="btn-info"
+                        type="button"
+                        onClick={() => {
+                          dispatch(deleteItemfromStore(product));
+                          dispatch(removeItem(product));
+                          navigate("/shop");
+                          showToast2();
+                        }}
+                      >
+                        <i className="bi bi-arrow-up-square-fill" /> Update item
+                      </Button>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              ) : (
+                <></>
+              )}
             </ListGroup>
           </Col>
         </Row>

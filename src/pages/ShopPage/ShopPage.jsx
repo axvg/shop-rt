@@ -19,6 +19,8 @@ const ShopPage = () => {
   function getProductItems() {
     dispatch(getItemsAsync());
   }
+
+  console.log('products in Shop', products);
   const loading = useSelector((state) => state.product.loading);
   const error = false;
 

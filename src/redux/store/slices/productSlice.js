@@ -39,17 +39,43 @@ export const productSlice = createSlice({
       // state.product = action.payload;
     },
     addItem: (state, action) => {
-      // if (state.loading === true) {
+      const ids = state.productItems.map((el) => el.id);
+      const newId = Math.max(...ids) + 1;
+      const newItem = {
+        ...action.payload,
+        id: newId,
+      };
+      console.log(newItem);
       state.loading = false;
-      state.productItems.push(action.payload);
+      state.productItems.push(newItem);
+      localStorage.setItem("productItems", JSON.stringify(state.productItems));
       // }
+    },
+    deleteItemfromStore: (state, action) => {
+      // state.productItems.pop(action.payload);
+      // let updatedArr = state.productItems;
+      // updatedArr = updatedArr.filter((el) => el.id !== action.payload.id);
+      // console.log("array before", updatedArr);
+      // console.log(
+      //   "array after",
+      state.productItems = state.productItems.filter(
+        (el) => el.id !== action.payload.id
+      );
+      // );
+      localStorage.setItem("productItems", JSON.stringify(state.productItems));
     },
   },
 });
 
 // Destructure and export the plain action creators
-export const { requestItems, getItems, getItemById, addItem, successItems } =
-  productSlice.actions;
+export const {
+  requestItems,
+  getItems,
+  getItemById,
+  addItem,
+  successItems,
+  deleteItemfromStore,
+} = productSlice.actions;
 
 export const getItemsAsync = () => async (dispatch) => {
   try {
@@ -69,13 +95,20 @@ export const getItemsAsync = () => async (dispatch) => {
 
 export const getItemDetailsAsync = (id) => async (dispatch) => {
   try {
-    dispatch(requestItems());
-    const res = await axios.get(`https://fakestoreapi.com/products/${id}`);
-    console.log("url", `https://fakestoreapi.com/products/${id}`);
+    console.log("this id", id);
 
-    console.log("your data by id", res.data);
-    dispatch(getItemById(res.data));
-    dispatch(successItems());
+    let thisProd = JSON.parse(localStorage.getItem("productItems")).find(el => el.id === Number(id));
+    console.log("thisProd", thisProd);
+
+    if ((thisProd && id < 21)) {
+      dispatch(requestItems());
+      const res = await axios.get(`https://fakestoreapi.com/products/${id}`);
+      // console.log("url", `https://fakestoreapi.com/products/${id}`);
+      // console.log("your data by id", res.data);
+      thisProd = res.data;
+      dispatch(successItems());
+    }
+    dispatch(getItemById(thisProd));
   } catch (err) {
     throw new Error(err);
   }
