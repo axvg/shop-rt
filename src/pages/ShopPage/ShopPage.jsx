@@ -21,11 +21,11 @@ const ShopPage = () => {
     dispatch(getItemsAsync());
   }
 
-  console.log("products in Shop", products);
+  // console.log("products in Shop", products);
 
   return (
     <>
-      <h2>logged: {isLogged ? "true" : "false"}</h2>
+      {/* <h2>logged: {isLogged ? "true" : "false"}</h2> */}
       {loading ? (
         <Loader />
       ) : error ? (

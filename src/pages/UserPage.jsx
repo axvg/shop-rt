@@ -22,7 +22,7 @@ const UserPage = () => {
     getUser();
   }, [dispatch, params]);
 
-  console.log(user);
+  // console.log(user);
 
   function getUser() {
     dispatch(getUserByIdAsync(params.id));

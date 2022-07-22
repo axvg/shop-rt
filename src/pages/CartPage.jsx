@@ -11,7 +11,7 @@ const CartPage = () => {
   const dispatch = useDispatch();
 
   const { isLogged } = useSelector((state) => state?.auth);
-  console.log("isLogged", isLogged);
+  // console.log("isLogged", isLogged);
   const grandQuantity = () => {
     return cartItems.reduce((a, b) => a + b.quantity, 0);
   };

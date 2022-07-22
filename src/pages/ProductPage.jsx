@@ -136,10 +136,7 @@ const ProductPage = () => {
                         className="btn-info"
                         type="button"
                         onClick={() => {
-                          dispatch(deleteItemfromStore(product));
-                          dispatch(removeItem(product));
-                          navigate("/shop");
-                          showToast2();
+                          navigate(`/update/${params.id}`);
                         }}
                       >
                         <i className="bi bi-arrow-up-square-fill" /> Update item

@@ -11,7 +11,7 @@ const Header = () => {
   const { loading, token, error } = useSelector((state) => state?.auth);
 
   const { decodedToken } = useJwt(token);
-  console.log(decodedToken);
+  // console.log(decodedToken);
   const logoutHandler = () => {
     dispatch(logout());
   };

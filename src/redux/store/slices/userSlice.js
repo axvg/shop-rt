@@ -49,7 +49,7 @@ export const getAllUsersAsync = () => async (dispatch) => {
   try {
     dispatch(requestUser());
     const res = await axios.get("https://fakestoreapi.com/users");
-    console.log("all users", res.data);
+    // console.log("all users", res.data);
     dispatch(getAllUsers(res.data));
     dispatch(successUser());
   } catch (err) {
@@ -64,7 +64,7 @@ export const getUserByIdAsync = (id) => async (dispatch) => {
     dispatch(requestUser());
     const res = await axios.get(`https://fakestoreapi.com/users/${id}`);
     dispatch(getUserById(res.data));
-    console.log(res.data);
+    // console.log(res.data);
   } catch (err) {
     dispatch(requestUser());
     dispatch(error(err));

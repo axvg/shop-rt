@@ -20,7 +20,7 @@ export const categorySlice = createSlice({
       }
     },
     getItemsByCategory: (state, action) => {
-      console.log("state", action.payload);
+      // console.log("state", action.payload);
       if (state.loading === true) {
         state.loading = false;
         state.productsbyCat[action.payload[0]] = action.payload[1];
@@ -49,11 +49,11 @@ export const getItemsByCategoryAsync = (cat) => async (dispatch) => {
     const res = await axios.get(
       `https://fakestoreapi.com/products/category/${cat}`
     );
-    console.log("your produdcts by ", cat, "are: ", res.data);
+    // console.log("your produdcts by ", cat, "are: ", res.data);
 
     dispatch(getItemsByCategory([cat, res.data]));
     localStorage.setItem(cat, JSON.stringify(res?.data));
-    console.log("done");
+    // console.log("done");
   } catch (err) {
     throw new Error(err);
   }

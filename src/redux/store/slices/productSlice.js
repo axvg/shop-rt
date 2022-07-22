@@ -23,7 +23,7 @@ export const productSlice = createSlice({
     },
     getItems: (state, action) => {
       // state.productItems = action.payload;
-      console.log("state in productSlice", state.product);
+      // console.log("state in productSlice", state.product);
 
       if (state.productItems) {
         state.loading = false;
@@ -33,7 +33,7 @@ export const productSlice = createSlice({
     getItemById: (state, action) => {
       // if (state.loading === true) {
       state.loading = false;
-      console.log(action.payload);
+      // console.log(action.payload);
       state.product = action.payload;
       // }
       // state.product = action.payload;
@@ -45,7 +45,7 @@ export const productSlice = createSlice({
         ...action.payload,
         id: newId,
       };
-      console.log(newItem);
+      // console.log(newItem);
       state.loading = false;
       state.productItems.push(newItem);
       localStorage.setItem("productItems", JSON.stringify(state.productItems));
@@ -68,6 +68,17 @@ export const productSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    updateItem: (state, action) => {
+      const oldId = action.payload.id;
+      console.log('oldId',oldId);
+      deleteItemfromStore(oldId);
+      const updatedItem = {
+        ...action.payload,
+        id: oldId,
+      };
+      state.productItems.push(updatedItem);
+      localStorage.setItem("productItems", JSON.stringify(state.productItems));
+    },
   },
 });
 
@@ -79,6 +90,7 @@ export const {
   addItem,
   successItems,
   deleteItemfromStore,
+  updateItem,
   error,
 } = productSlice.actions;
 
@@ -95,7 +107,7 @@ export const getItemsAsync = () => async (dispatch) => {
     }
   } catch (err) {
     dispatch(requestItems());
-    console.log('err', err);
+    console.log("err", err);
     dispatch(error(err?.response.data));
     dispatch(successItems());
   }
@@ -103,12 +115,12 @@ export const getItemsAsync = () => async (dispatch) => {
 
 export const getItemDetailsAsync = (id) => async (dispatch) => {
   try {
-    console.log("this id", id);
+    // console.log("this id", id);
 
     let thisProd = JSON.parse(localStorage.getItem("productItems")).find(
       (el) => el.id === Number(id)
     );
-    console.log("thisProd", thisProd);
+    // console.log("thisProd", thisProd);
 
     if (thisProd && id < 21) {
       dispatch(requestItems());
@@ -121,7 +133,13 @@ export const getItemDetailsAsync = (id) => async (dispatch) => {
     dispatch(getItemById(thisProd));
   } catch (err) {
     dispatch(requestItems());
-    dispatch(error(err?.response.data));
+    dispatch(
+      error(
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message
+      )
+    );
     dispatch(successItems());
   }
 };
@@ -135,7 +153,13 @@ export const addItemAsync = (obj) => async (dispatch) => {
     dispatch(successItems());
   } catch (err) {
     dispatch(requestItems());
-    dispatch(error(err?.response.data));
+    dispatch(
+      error(
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message
+      )
+    );
     dispatch(successItems());
   }
 };

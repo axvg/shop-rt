@@ -9,17 +9,16 @@ import P404 from "./components/P404";
 import UserPage from "./pages/UserPage";
 import CartPage from "./pages/CartPage";
 import { useSelector } from "react-redux";
-import ScrollTop from "./motions/ScrollTop";
-import { AnimatePresence } from "framer-motion";
 import ShopPage from "./pages/ShopPage/ShopPage";
 import CategoryPage from "./pages/CategoryPage";
 import AddProductPage from "./pages/AddProductPage";
 import ProfilePage from "./pages/ProfilePage";
+import UpdateProductPage from "./pages/UpdateProductPage";
 
 const App = () => {
   const isLogged = useSelector((state) => state?.auth.isLogged);
   // ------ usign redux-toolkit
-  console.log("logged? in App.js", isLogged);
+  // console.log("logged? in App.js", isLogged);
   //------------
 
   return (
@@ -37,6 +36,7 @@ const App = () => {
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/add" element={<AddProductPage />} />
+          <Route path="/update/:id" element={<UpdateProductPage />} />
           <Route path="/category/:cat" element={<CategoryPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/user/:id" element={<UserPage />} />

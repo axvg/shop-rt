@@ -7,7 +7,6 @@ import Loader from "../../components/Loader";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { getItemsAsync } from "../../redux/store/slices/productSlice";
-import AnimatedPage from "../../motions/AnimatedPage";
 import { Link } from "react-router-dom";
 import "./styles.css";
 import menImg from "./img/men.webp";

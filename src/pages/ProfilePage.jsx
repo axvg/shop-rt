@@ -18,13 +18,13 @@ const ProfilePage = () => {
   //   console.log("user", user, "type", typeof user);
   const loggedUser = users.filter((u) => u.username === user)[0];
 
-  console.log("loggedUser", loggedUser);
+  // console.log("loggedUser", loggedUser);
 
   useEffect(() => {
     getUsers();
   }, []);
 
-  console.log("users", users);
+  // console.log("users", users);
 
   function getUsers() {
     dispatch(getAllUsersAsync());

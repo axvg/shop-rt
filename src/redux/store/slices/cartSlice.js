@@ -43,7 +43,7 @@ export const cartSlice = createSlice({
             quantity: 1,
             totalPrice: action.payload.price,
           };
-          console.log(pItem);
+          // console.log(pItem);
           state.cartItems.push(pItem);
         }
       }
