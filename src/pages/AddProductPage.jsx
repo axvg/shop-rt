@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
+import { useToaster } from "@scrumble-nl/react-quick-toaster";
 import { addItemAsync } from "../redux/store/slices/productSlice";
 
 const AddProductPage = () => {
@@ -13,6 +14,7 @@ const AddProductPage = () => {
   const [category, setCategory] = useState("");
   const inputRef = useRef();
   const navigate = useNavigate();
+  const add = useToaster();
 
   // const products = useSelector((state) => state.product.productItems);
   const { isAdmin, isLogged } = useSelector((state) => state?.auth);
@@ -27,9 +29,15 @@ const AddProductPage = () => {
     category,
   };
 
+  const showToast = () => {
+    add({ content: `${obj.title} added to Shop` });
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(addItemAsync(obj));
+    navigate("/");
+    showToast();
   };
 
   useEffect(() => {

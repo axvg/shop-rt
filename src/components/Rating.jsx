@@ -2,7 +2,7 @@ import React from "react";
 
 const Rating = ({ rating }) => {
   const value = rating?.rate;
-  const text = `${rating?.count} reviews`;
+  const ct = rating?.count;
 
   const color = {
     color: "#f8e825",
@@ -70,7 +70,7 @@ const Rating = ({ rating }) => {
           }
         ></i>
       </span>
-      <span>{text && text}</span>
+      <span>{ct ? ct : "no"} reviews</span>
     </div>
   );
 };

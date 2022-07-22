@@ -5,10 +5,12 @@ import {
   removeAllItems,
   removeItem,
 } from "../redux/store/slices/cartSlice";
+import { useToaster } from "@scrumble-nl/react-quick-toaster";
 
 const CartPage = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
+  const add = useToaster();
 
   const { isLogged } = useSelector((state) => state?.auth);
   // console.log("isLogged", isLogged);
@@ -20,8 +22,19 @@ const CartPage = () => {
     return cartItems.reduce((a, b) => a + b.totalPrice, 0)?.toFixed(2);
   };
 
+  const showToast = () => {
+    add({
+      content: `Total price: $ ${grandTotal()}. Thank you!`,
+    });
+  };
+
   const emptyCart = () => {
     dispatch(removeAllItems());
+  };
+
+  const handleCheckOut = () => {
+    dispatch(removeAllItems());
+    showToast();
   };
 
   return (
@@ -117,7 +130,7 @@ const CartPage = () => {
 
         {isLogged && cartItems.length ? (
           <Col className="text-center">
-            <Button variant="success">
+            <Button variant="success" onClick={handleCheckOut}>
               <i className="bi bi-cart-check-fill" /> CHECKOUT
             </Button>
           </Col>

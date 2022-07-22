@@ -42,7 +42,7 @@ const UpdateProductPage = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(updateItem(obj));
-    navigate(`/shop/${params.id}`);
+    navigate(`/product/${params.id}`);
   };
 
   useEffect(() => {

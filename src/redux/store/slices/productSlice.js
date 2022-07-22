@@ -9,6 +9,7 @@ export const productSlice = createSlice({
       : [],
     product: null,
     loading: false,
+    updated: false,
   },
   reducers: {
     requestItems: (state, action) => {
@@ -69,8 +70,9 @@ export const productSlice = createSlice({
       state.loading = false;
     },
     updateItem: (state, action) => {
+      state.updated = true;
       const oldId = action.payload.id;
-      console.log('oldId',oldId);
+      console.log("oldId", oldId);
       deleteItemfromStore(oldId);
       const updatedItem = {
         ...action.payload,

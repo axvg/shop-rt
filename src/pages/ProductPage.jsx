@@ -75,7 +75,12 @@ const ProductPage = () => {
               </ListGroup.Item>
               <ListGroup.Item>Price: ${product?.price}</ListGroup.Item>
               <ListGroup.Item>
-                Category: <Badge bg="secondary">{product?.category}</Badge>
+                Category:
+                <Link to={`/category/${product?.category}`}>
+                  <Badge bg="secondary" className="mx-3">
+                    {product?.category}
+                  </Badge>
+                </Link>
               </ListGroup.Item>
               {/* <ListGroup.Item>
                 <Row>
